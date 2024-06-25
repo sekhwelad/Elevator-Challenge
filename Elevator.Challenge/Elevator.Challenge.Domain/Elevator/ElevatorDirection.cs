@@ -3,7 +3,7 @@ namespace Elevator.Challenge.Domain.Elevator
 {
     public enum ElevatorDirection
     {
-        Stationary,
+        NotMoving,
         Up,
         Down
     }

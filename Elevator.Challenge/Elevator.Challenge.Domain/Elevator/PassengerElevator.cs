@@ -1,5 +1,4 @@
 ﻿
-
 namespace Elevator.Challenge.Domain.Elevator
 {
     public class PassengerElevator : Elevator

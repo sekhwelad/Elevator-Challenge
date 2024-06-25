@@ -2,7 +2,7 @@
 
 namespace Elevator.Challenge.Domain.Elevator
 {
-    internal interface IElevatorDispatcher
+    public interface IElevatorDispatcher
     {
         Elevator AssignElevator(List<Elevator> elevators, ElevatorRequest request);
     }

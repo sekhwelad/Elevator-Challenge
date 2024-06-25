@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Elevator.Challenge.Infrastructure\Elevator.Challenge.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
