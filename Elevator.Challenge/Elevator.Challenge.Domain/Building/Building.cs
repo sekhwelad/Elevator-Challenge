@@ -26,15 +26,17 @@ namespace Elevator.Challenge.Domain.Building
             if (elevator != null)
             {
                 elevator.AddPassengers(request.PassengerNumber);
-                //elevator.MoveToFloorNumber(request);  //Source Floor
-                elevator.MoveToFloorNumber(request.SourceFloor);  //Source Floor
+                elevator.MoveToFloorNumber(request.SourceFloor);  //Source or Requester Floor
+                Console.WriteLine($"{elevator}");
+
+                
+                elevator.MoveToFloorNumber(request.DestinationFloor);  //Destination Floor
                 Console.WriteLine($"{elevator}");
 
                 elevator.OffloadPassengers(request.PassengerNumber);
                 elevator.SetStationary(request.PassengerNumber);
-                elevator.MoveToFloorNumber(request.DestinationFloor);  //Destination Floor
-               // elevator.MoveToFloorNumber(request);  //Destination Floor
-                Console.WriteLine($"{elevator}");
+
+               
             }
             else
             {

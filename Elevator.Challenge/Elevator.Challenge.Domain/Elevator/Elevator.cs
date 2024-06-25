@@ -7,6 +7,7 @@ namespace Elevator.Challenge.Domain.Elevator
         public ElevatorStatus Status { get; private set; }
         public ElevatorDirection Direction { get; private set; }
         public int CurrentFloor { get; private set; }
+        public int DestinationFloor { get; private set; }
         public int PassengerNumber { get; private set; }
         public int MaxPassengers { get; }
 
@@ -14,6 +15,7 @@ namespace Elevator.Challenge.Domain.Elevator
         {
             Id = id;
             CurrentFloor = 0;
+            DestinationFloor = 0;
             Status = ElevatorStatus.Stationary;
             Direction = ElevatorDirection.NotMoving;
             PassengerNumber = 0;
@@ -22,41 +24,22 @@ namespace Elevator.Challenge.Domain.Elevator
 
         public void MoveToFloorNumber(int floor)
         {
-
-            //if (CurrentFloor > request.DestinationFloor)
-            //{
-            //    Direction = ElevatorDirection.Down;
-            //}
-            //else if (CurrentFloor < request.DestinationFloor)
-            //{
-            //    Direction = ElevatorDirection.Up;
-            //}
-            //else
-            //{
-            //    Direction = ElevatorDirection.Up;
-            //}
+           
             Status = ElevatorStatus.Moving;
-            //CurrentFloor = request.DestinationFloor;
-            Direction = CurrentFloor < floor ? ElevatorDirection.Up : ElevatorDirection.Down;
+
+            if(CurrentFloor == floor) 
+            { 
+                Direction = ElevatorDirection.NotMoving;
+            }
+            else
+            {
+                Direction = CurrentFloor < floor ? ElevatorDirection.Up : ElevatorDirection.Down;
+            }
+           
             CurrentFloor = floor;
 
-
-
         }
 
-        public void MoveFromSourceFloor(int sourceFloorNumber, int destinationFloor)
-        {
-            if (CurrentFloor < destinationFloor)
-            {
-                Direction = ElevatorDirection.Up;
-                CurrentFloor = destinationFloor;
-            }else if (CurrentFloor > destinationFloor)
-            {
-                Direction = ElevatorDirection.Down;
-                CurrentFloor = destinationFloor;
-            }
-          
-        }
 
         public void AddPassengers(int count)
         {
@@ -81,8 +64,9 @@ namespace Elevator.Challenge.Domain.Elevator
 
         public override string ToString()
         {
+            //return $"Elevator {Id}: Is {Status}, {Direction} ----> Floor {CurrentFloor} with {PassengerNumber}/{MaxPassengers} Passengers ";
+            return $"Elevator {Id}: Floor {CurrentFloor}, Status {Status}, Direction {Direction}, Passengers {PassengerNumber}/{MaxPassengers}";
 
-            return $"Elevator {Id}: Is {Status}, {Direction} at Floor {CurrentFloor} with {PassengerNumber}/{MaxPassengers} Passengers ";
         }
     }
 }
