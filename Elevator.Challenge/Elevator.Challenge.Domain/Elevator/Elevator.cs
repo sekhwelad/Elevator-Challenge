@@ -53,7 +53,7 @@ namespace Elevator.Challenge.Domain.Elevator
         public void Offload(int count)
         {
             if (PassengerNumber - count < 0)
-                throw new InvalidOperationException("Passenger count cannot be negative.");
+                throw new InvalidOperationException("Load cannot be negative.");
             PassengerNumber -= count;
         }
 
