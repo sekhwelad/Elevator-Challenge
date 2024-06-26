@@ -18,16 +18,24 @@ class Program
             Console.WriteLine($"Total Floors: {totalFloors}");
             building.ShowElevatorStatus();
 
+            Console.WriteLine("\nEnter the Elevator type:");
+            int elevatorType = int.Parse(Console.ReadLine());
+
+
             Console.WriteLine("\nEnter the source floor:");
             int sourceFloor = int.Parse(Console.ReadLine());
 
             Console.WriteLine("Enter the destination floor:");
             int destinationFloor = int.Parse(Console.ReadLine());
 
-            Console.WriteLine("Enter the number of passengers:");
+            if (elevatorType == (int)ElevatorType.Passenger)
+                Console.WriteLine("Enter the number of passengers:");
+            else
+                Console.WriteLine("Enter the weight of goods:");
+
             int passengerCount = int.Parse(Console.ReadLine());
 
-            var request = new ElevatorRequest(sourceFloor, destinationFloor, passengerCount);
+            var request = new ElevatorRequest(sourceFloor, destinationFloor, passengerCount, elevatorType);
             building.RequestElevator(request);
 
             Console.WriteLine("Press any key to make another request or 'q' to quit.");

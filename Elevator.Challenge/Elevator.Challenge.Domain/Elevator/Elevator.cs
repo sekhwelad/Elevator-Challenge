@@ -10,6 +10,7 @@ namespace Elevator.Challenge.Domain.Elevator
         public int DestinationFloor { get; private set; }
         public int PassengerNumber { get; private set; }
         public int MaxPassengers { get; }
+        public int ElevatorType { get; set; }
 
         protected Elevator(int id, int maxPassengers)
         {
@@ -20,6 +21,7 @@ namespace Elevator.Challenge.Domain.Elevator
             Direction = ElevatorDirection.NotMoving;
             PassengerNumber = 0;
             MaxPassengers = maxPassengers;
+            ElevatorType = 0;
         }
 
         public void MoveToFloorNumber(int floor)
@@ -40,7 +42,6 @@ namespace Elevator.Challenge.Domain.Elevator
 
         }
 
-
         public void AddPassengers(int count)
         {
             if (PassengerNumber + count > MaxPassengers)
@@ -59,14 +60,18 @@ namespace Elevator.Challenge.Domain.Elevator
         {
             Status = ElevatorStatus.Stationary;
             Direction = ElevatorDirection.NotMoving;
-            Console.WriteLine($"Offloaded {passengerNumber} Passengers, Elevator now {ElevatorStatus.Stationary}");
+
+            if(ElevatorType == (int)Domain.Elevator.ElevatorType.Passenger)
+                Console.WriteLine($"Offloaded {passengerNumber} Passengers, Elevator now {ElevatorStatus.Stationary}");
+
+            if (ElevatorType == (int)Domain.Elevator.ElevatorType.Freight)
+                Console.WriteLine($"Offloaded {passengerNumber} KGs of Goods, Elevator now {ElevatorStatus.Stationary}");
         }
 
         public override string ToString()
         {
-            //return $"Elevator {Id}: Is {Status}, {Direction} ----> Floor {CurrentFloor} with {PassengerNumber}/{MaxPassengers} Passengers ";
-            return $"Elevator {Id}: Floor {CurrentFloor}, Status {Status}, Direction {Direction}, Passengers {PassengerNumber}/{MaxPassengers}";
-
+           
+         return $"Elevator {Id}: Type : {(ElevatorType)ElevatorType} Floor {CurrentFloor}, Status {Status}, Direction {Direction}, Passengers {PassengerNumber}/{MaxPassengers}";
         }
     }
 }
