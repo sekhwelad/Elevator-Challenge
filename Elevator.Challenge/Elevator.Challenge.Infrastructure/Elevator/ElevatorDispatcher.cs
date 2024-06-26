@@ -7,7 +7,6 @@ namespace Elevator.Challenge.Infrastructure.Elevator
     {
         public Domain.Elevator.Elevator AssignElevator(List<Domain.Elevator.Elevator> elevators, ElevatorRequest request)
         {
-            // Implement a strategy to assign the optimal elevator
 
             var availableElevators = elevators
                 .Where(x => x.ElevatorType == request.ElevatorType && (x.Status == ElevatorStatus.Stationary || x.Direction == ElevatorDirection.NotMoving))

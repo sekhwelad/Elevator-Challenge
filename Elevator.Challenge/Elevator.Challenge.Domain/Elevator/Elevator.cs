@@ -26,30 +26,31 @@ namespace Elevator.Challenge.Domain.Elevator
 
         public void MoveToFloorNumber(int floor)
         {
-           
+
             Status = ElevatorStatus.Moving;
 
-            if(CurrentFloor == floor) 
-            { 
+            if (CurrentFloor == floor)
+            {
                 Direction = ElevatorDirection.NotMoving;
             }
             else
             {
                 Direction = CurrentFloor < floor ? ElevatorDirection.Up : ElevatorDirection.Down;
             }
-           
+
             CurrentFloor = floor;
 
         }
 
-        public void AddPassengers(int count)
+        public void AddLoad(int count)
         {
+          
             if (PassengerNumber + count > MaxPassengers)
-                throw new InvalidOperationException("Exceeds maximum passenger limit.");
+                throw new InvalidOperationException("Exceeds maximum limit.");
             PassengerNumber += count;
         }
 
-        public void OffloadPassengers(int count)
+        public void Offload(int count)
         {
             if (PassengerNumber - count < 0)
                 throw new InvalidOperationException("Passenger count cannot be negative.");
@@ -61,7 +62,7 @@ namespace Elevator.Challenge.Domain.Elevator
             Status = ElevatorStatus.Stationary;
             Direction = ElevatorDirection.NotMoving;
 
-            if(ElevatorType == (int)Domain.Elevator.ElevatorType.Passenger)
+            if (ElevatorType == (int)Domain.Elevator.ElevatorType.Passenger)
                 Console.WriteLine($"Offloaded {passengerNumber} Passengers, Elevator now {ElevatorStatus.Stationary}");
 
             if (ElevatorType == (int)Domain.Elevator.ElevatorType.Freight)
@@ -70,8 +71,8 @@ namespace Elevator.Challenge.Domain.Elevator
 
         public override string ToString()
         {
-           
-         return $"Elevator {Id}: Type : {(ElevatorType)ElevatorType} Floor {CurrentFloor}, Status {Status}, Direction {Direction}, Passengers {PassengerNumber}/{MaxPassengers}";
+
+            return $"Elevator {Id}: Type : {(ElevatorType)ElevatorType} Floor {CurrentFloor}, Status {Status}, Direction {Direction}, Passengers {PassengerNumber}/{MaxPassengers}";
         }
     }
 }

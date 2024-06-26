@@ -26,15 +26,15 @@ namespace Elevator.Challenge.Domain.Building
             var elevator = _elevatorDispatcher.AssignElevator(_elevators, request);
             if (elevator != null)
             {
-                elevator.AddPassengers(request.PassengerNumber);
-                elevator.MoveToFloorNumber(request.SourceFloor);  //Source or Requester Floor
+                elevator.AddLoad(request.PassengerNumber);
+                elevator.MoveToFloorNumber(request.SourceFloor);  
                 Console.WriteLine($"{elevator}");
 
                 
-                elevator.MoveToFloorNumber(request.DestinationFloor);  //Destination Floor
+                elevator.MoveToFloorNumber(request.DestinationFloor); 
                 Console.WriteLine($"{elevator}");
 
-                elevator.OffloadPassengers(request.PassengerNumber);
+                elevator.Offload(request.PassengerNumber);
                 elevator.SetStationary(request.PassengerNumber);
 
                
