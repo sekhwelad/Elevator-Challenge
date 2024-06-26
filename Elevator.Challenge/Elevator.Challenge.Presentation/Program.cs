@@ -7,7 +7,7 @@ class Program
     static void Main(string[] args)
     {
         var elevatorDispatcher = new ElevatorDispatcher();
-        int totalFloors = 10, numberOfElevators = 3;
+        const int totalFloors = 10, numberOfElevators = 3;
 
         var building = new Building(totalFloors, numberOfElevators, elevatorDispatcher);
 
@@ -19,8 +19,7 @@ class Program
             building.ShowElevatorStatus();
 
             Console.WriteLine("\nEnter the Elevator type:");
-            int elevatorType = int.Parse(Console.ReadLine());
-
+            var elevatorType = (ElevatorType)int.Parse(Console.ReadLine());
 
             Console.WriteLine("\nEnter the source floor:");
             int sourceFloor = int.Parse(Console.ReadLine());
@@ -28,7 +27,7 @@ class Program
             Console.WriteLine("Enter the destination floor:");
             int destinationFloor = int.Parse(Console.ReadLine());
 
-            if (elevatorType == (int)ElevatorType.Passenger)
+            if (elevatorType == ElevatorType.Passenger)
                 Console.WriteLine("Enter the number of passengers:");
             else
                 Console.WriteLine("Enter the weight of goods:");

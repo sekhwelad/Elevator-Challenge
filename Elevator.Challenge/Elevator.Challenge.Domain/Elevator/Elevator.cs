@@ -10,7 +10,7 @@ namespace Elevator.Challenge.Domain.Elevator
         public int DestinationFloor { get; private set; }
         public int PassengerNumber { get; private set; }
         public int MaxPassengers { get; }
-        public int ElevatorType { get; set; }
+        public ElevatorType ElevatorType { get; set; }
 
         protected Elevator(int id, int maxPassengers)
         {
@@ -21,30 +21,19 @@ namespace Elevator.Challenge.Domain.Elevator
             Direction = ElevatorDirection.NotMoving;
             PassengerNumber = 0;
             MaxPassengers = maxPassengers;
-            ElevatorType = 0;
+           // ElevatorType = 0;
         }
 
         public void MoveToFloorNumber(int floor)
         {
-
             Status = ElevatorStatus.Moving;
 
-            if (CurrentFloor == floor)
-            {
-                Direction = ElevatorDirection.NotMoving;
-            }
-            else
-            {
-                Direction = CurrentFloor < floor ? ElevatorDirection.Up : ElevatorDirection.Down;
-            }
-
+            Direction = CurrentFloor < floor ? ElevatorDirection.Up : ElevatorDirection.Down;
             CurrentFloor = floor;
-
         }
 
         public void AddLoad(int count)
         {
-          
             if (PassengerNumber + count > MaxPassengers)
                 throw new InvalidOperationException("Exceeds maximum limit.");
             PassengerNumber += count;
@@ -62,17 +51,17 @@ namespace Elevator.Challenge.Domain.Elevator
             Status = ElevatorStatus.Stationary;
             Direction = ElevatorDirection.NotMoving;
 
-            if (ElevatorType == (int)Domain.Elevator.ElevatorType.Passenger)
+            if (ElevatorType == ElevatorType.Passenger)
                 Console.WriteLine($"Offloaded {passengerNumber} Passengers, Elevator now {ElevatorStatus.Stationary}");
 
-            if (ElevatorType == (int)Domain.Elevator.ElevatorType.Freight)
+            if (ElevatorType == ElevatorType.Freight)
                 Console.WriteLine($"Offloaded {passengerNumber} KGs of Goods, Elevator now {ElevatorStatus.Stationary}");
         }
 
         public override string ToString()
         {
 
-            return $"Elevator {Id}: Type : {(ElevatorType)ElevatorType} Floor {CurrentFloor}, Status {Status}, Direction {Direction}, Passengers {PassengerNumber}/{MaxPassengers}";
+            return $"Elevator {Id}: Type : {ElevatorType} Floor {CurrentFloor}, Status {Status}, Direction {Direction}, Passengers {PassengerNumber}/{MaxPassengers}";
         }
     }
 }

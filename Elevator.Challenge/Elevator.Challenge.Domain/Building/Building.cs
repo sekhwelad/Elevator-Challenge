@@ -15,7 +15,7 @@ namespace Elevator.Challenge.Domain.Building
             _elevators = new List<Elevator.Elevator>();
             for (int i = 0; i < numberOfElevators; i++)
             {
-                 _elevators.Add(new PassengerElevator(i, 10));
+                _elevators.Add(new PassengerElevator(i, 10));
                 _elevators.Add(new FreightElevator(i,100));
             }
             _elevatorDispatcher = elevatorDispatcher;
@@ -29,7 +29,6 @@ namespace Elevator.Challenge.Domain.Building
                 elevator.AddLoad(request.PassengerNumber);
                 elevator.MoveToFloorNumber(request.SourceFloor);  
                 Console.WriteLine($"{elevator}");
-
                 
                 elevator.MoveToFloorNumber(request.DestinationFloor); 
                 Console.WriteLine($"{elevator}");

@@ -5,10 +5,10 @@
         public int SourceFloor { get; }
         public int DestinationFloor { get; }
         public int PassengerNumber { get; }
-        public int ElevatorType { get; set; }
+        public ElevatorType ElevatorType { get; set; }
 
 
-        public ElevatorRequest(int sourceFloor, int destinationFloor, int passengerNumber, int elevatorType)
+        public ElevatorRequest(int sourceFloor, int destinationFloor, int passengerNumber, ElevatorType elevatorType)
         {
             SourceFloor = sourceFloor;
             DestinationFloor = destinationFloor;

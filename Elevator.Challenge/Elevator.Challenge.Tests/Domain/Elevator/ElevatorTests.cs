@@ -44,5 +44,17 @@ namespace Elevator.Challenge.Tests.Domain
 
             Assert.Equal("Load cannot be negative.", exception.Message);
         }
+
+        [Fact]
+        public void OffLoad_Should_ThrowAnException_WhenLoadIsGreaterThanZero()
+        {
+            int maxPassengers = 10;
+            int load = 5;
+
+            var elevator = new PassengerElevator(1, maxPassengers);
+           // elevator.PassengerNumber = 5;
+
+
+        }
     }
 }
