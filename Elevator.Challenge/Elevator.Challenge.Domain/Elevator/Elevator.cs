@@ -21,7 +21,6 @@ namespace Elevator.Challenge.Domain.Elevator
             Direction = ElevatorDirection.NotMoving;
             PassengerNumber = 0;
             MaxPassengers = maxPassengers;
-           // ElevatorType = 0;
         }
 
         public void MoveToFloorNumber(int floor)

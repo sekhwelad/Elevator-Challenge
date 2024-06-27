@@ -25,7 +25,6 @@ namespace Elevator.Challenge.Tests.Domain
             int load = 6;
             int currentPassengers = 0;
             int passengerNumber = currentPassengers + load;
-
             var elevator = new PassengerElevator(1, maxPassengers);
            
             elevator.AddLoad(load);
@@ -38,7 +37,6 @@ namespace Elevator.Challenge.Tests.Domain
         {
             int maxPassengers = 10;
             int load = 5;
-
             var elevator = new PassengerElevator(1, maxPassengers);
 
             var exception = Assert.Throws<InvalidOperationException>(() => elevator.Offload(load));
@@ -51,20 +49,41 @@ namespace Elevator.Challenge.Tests.Domain
         {
             int maxPassengers = 10;
             int subtractLoad = 5;
-           
             var elevator = new PassengerElevator(1, maxPassengers);
-            SetPrivatePropertyPassengerNumber(elevator, 5);
+            SetPrivateProperty(elevator, 5,nameof(elevator.PassengerNumber));
 
             elevator.Offload(subtractLoad);
 
             elevator.PassengerNumber.Should().Be(0);
         }
 
+        [Fact]
+        public void SetStationary_Should_SetStatusToStationery()
+        {
+            var elevator = new PassengerElevator(1, 10);
+            SetPrivateProperty(elevator, ElevatorStatus.Stationary,nameof(elevator.PassengerNumber));
 
-        private void SetPrivatePropertyPassengerNumber(PassengerElevator elevator, int value)
+            elevator.SetStationary(5);
+
+            elevator.Status.Should().Be(ElevatorStatus.Stationary);
+        }
+
+        [Fact]
+        public void SetStationary_Should_SetStatusToNotMoving()
+        {
+            var elevator = new PassengerElevator(1, 10);
+            SetPrivateProperty(elevator, ElevatorDirection.NotMoving, nameof(elevator.PassengerNumber));
+
+            elevator.SetStationary(5);
+
+            elevator.Direction.Should().Be(ElevatorDirection.NotMoving);
+        }
+
+
+        private void SetPrivateProperty<T>(PassengerElevator elevator, T value,string property)
         {
 
-            var field = typeof(Challenge.Domain.Elevator.Elevator).GetField("<PassengerNumber>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance);
+            var field = typeof(Challenge.Domain.Elevator.Elevator).GetField($"<{property}>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance);
 
             field.SetValue(elevator, value);
         }
