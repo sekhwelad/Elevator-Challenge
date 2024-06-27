@@ -27,6 +27,9 @@ class Program
             Console.WriteLine("Enter the destination floor:");
             int destinationFloor = int.Parse(Console.ReadLine());
 
+            if(destinationFloor > building.TotalFloors)
+                throw new InvalidOperationException($"Building has only {building.TotalFloors} floors.");
+
             if (elevatorType == ElevatorType.Passenger)
                 Console.WriteLine("Enter the number of passengers:");
             else

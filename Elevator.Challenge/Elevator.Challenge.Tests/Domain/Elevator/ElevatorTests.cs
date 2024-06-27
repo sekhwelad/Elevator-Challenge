@@ -1,5 +1,6 @@
 ﻿using Elevator.Challenge.Domain.Elevator;
 using FluentAssertions;
+using System.Reflection;
 
 namespace Elevator.Challenge.Tests.Domain
 {
@@ -26,7 +27,7 @@ namespace Elevator.Challenge.Tests.Domain
             int passengerNumber = currentPassengers + load;
 
             var elevator = new PassengerElevator(1, maxPassengers);
-
+           
             elevator.AddLoad(load);
 
             elevator.PassengerNumber.Should().Be(passengerNumber);  
@@ -46,15 +47,26 @@ namespace Elevator.Challenge.Tests.Domain
         }
 
         [Fact]
-        public void OffLoad_Should_ThrowAnException_WhenLoadIsGreaterThanZero()
+        public void OffLoad_Should_Succeed_WhenLoadIsGreaterThanZeroAndLessThanAvailableLoad()
         {
             int maxPassengers = 10;
-            int load = 5;
-
+            int subtractLoad = 5;
+           
             var elevator = new PassengerElevator(1, maxPassengers);
-           // elevator.PassengerNumber = 5;
+            SetPrivatePropertyPassengerNumber(elevator, 5);
+
+            elevator.Offload(subtractLoad);
+
+            elevator.PassengerNumber.Should().Be(0);
+        }
 
 
+        private void SetPrivatePropertyPassengerNumber(PassengerElevator elevator, int value)
+        {
+
+            var field = typeof(Challenge.Domain.Elevator.Elevator).GetField("<PassengerNumber>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            field.SetValue(elevator, value);
         }
     }
 }
