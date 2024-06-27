@@ -36,7 +36,6 @@ namespace Elevator.Challenge.Domain.Building
                 elevator.Offload(request.PassengerNumber);
                 elevator.SetStationary(request.PassengerNumber);
 
-               
             }
             else
             {
