@@ -72,11 +72,43 @@ namespace Elevator.Challenge.Tests.Domain
         public void SetStationary_Should_SetStatusToNotMoving()
         {
             var elevator = new PassengerElevator(1, 10);
-            SetPrivateProperty(elevator, ElevatorDirection.NotMoving, nameof(elevator.PassengerNumber));
 
             elevator.SetStationary(5);
 
             elevator.Direction.Should().Be(ElevatorDirection.NotMoving);
+        }
+        [Fact]
+        public void MoveToFloorNumber_Should_SetDirectionToUp()
+        {
+            var elevator = new PassengerElevator(1, 10);
+            SetPrivateProperty(elevator, elevator.CurrentFloor, nameof(elevator.CurrentFloor));
+
+            elevator.MoveToFloorNumber(8);
+
+            elevator.Direction.Should().Be(ElevatorDirection.Up);
+
+        }
+
+        [Fact]
+        public void MoveToFloorNumber_Should_SetDirectionToDown()
+        {
+            var elevator = new PassengerElevator(1, 10);
+            SetPrivateProperty(elevator, 8, nameof(elevator.CurrentFloor));
+
+            elevator.MoveToFloorNumber(1);
+
+            elevator.Direction.Should().Be(ElevatorDirection.Down);
+
+        }
+
+        [Fact]
+        public void MoveToFloorNumber_Should_SetElevatorStatusToMoving()
+        {
+            var elevator = new PassengerElevator(1, 10);
+
+            elevator.MoveToFloorNumber(1);
+
+            elevator.Status.Should().Be(ElevatorStatus.Moving);
         }
 
 

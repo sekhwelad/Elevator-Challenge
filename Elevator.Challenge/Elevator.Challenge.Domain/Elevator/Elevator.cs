@@ -7,7 +7,6 @@ namespace Elevator.Challenge.Domain.Elevator
         public ElevatorStatus Status { get; private set; }
         public ElevatorDirection Direction { get; private set; }
         public int CurrentFloor { get; private set; }
-        public int DestinationFloor { get; private set; }
         public int PassengerNumber { get; private set; }
         public int MaxPassengers { get; }
         public ElevatorType ElevatorType { get; set; }
@@ -16,7 +15,6 @@ namespace Elevator.Challenge.Domain.Elevator
         {
             Id = id;
             CurrentFloor = 0;
-            DestinationFloor = 0;
             Status = ElevatorStatus.Stationary;
             Direction = ElevatorDirection.NotMoving;
             PassengerNumber = 0;
