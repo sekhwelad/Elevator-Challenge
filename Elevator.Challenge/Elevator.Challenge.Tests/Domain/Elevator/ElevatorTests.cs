@@ -1,4 +1,5 @@
 ﻿using Elevator.Challenge.Domain.Elevator;
+using Elevator.Challenge.Domain.Exceptions;
 using FluentAssertions;
 using System.Reflection;
 
@@ -13,7 +14,7 @@ namespace Elevator.Challenge.Tests.Domain
             int load = 11;
             var elevator = new PassengerElevator(1, maxPassengers);
 
-            var exception = Assert.Throws<InvalidOperationException>(() => elevator.AddLoad(load));
+            var exception = Assert.Throws<CapacityExceededException>(() => elevator.AddLoad(load));
 
             Assert.Equal("Exceeds maximum limit.", exception.Message);
         }

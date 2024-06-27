@@ -13,10 +13,12 @@ namespace Elevator.Challenge.Domain.Building
         {
             TotalFloors = totalFloors;
             _elevators = new List<Elevator.Elevator>();
+            int x = 1;
             for (int i = 0; i < numberOfElevators; i++)
             {
                 _elevators.Add(new PassengerElevator(i, 10));
-                _elevators.Add(new FreightElevator(i,100));
+                _elevators.Add(new FreightElevator(i + x, 100));
+                i++;
             }
             _elevatorDispatcher = elevatorDispatcher;
         }
@@ -27,15 +29,14 @@ namespace Elevator.Challenge.Domain.Building
             if (elevator != null)
             {
                 elevator.AddLoad(request.PassengerNumber);
-                elevator.MoveToFloorNumber(request.SourceFloor);  
+                elevator.MoveToFloorNumber(request.SourceFloor);
                 Console.WriteLine($"{elevator}");
-                
-                elevator.MoveToFloorNumber(request.DestinationFloor); 
+
+                elevator.MoveToFloorNumber(request.DestinationFloor);
                 Console.WriteLine($"{elevator}");
 
                 elevator.Offload(request.PassengerNumber);
                 elevator.SetStationary(request.PassengerNumber);
-
             }
             else
             {
@@ -45,6 +46,8 @@ namespace Elevator.Challenge.Domain.Building
 
         public void ShowElevatorStatus()
         {
+            Console.WriteLine("\n ID  Type        Floor      Status        Direction         Capacity");
+            Console.WriteLine("--------------------------------------------------------------------------");
             foreach (var elevator in _elevators)
             {
                 Console.WriteLine(elevator);

@@ -1,5 +1,4 @@
-﻿
-using Elevator.Challenge.Domain.Elevator;
+﻿using Elevator.Challenge.Domain.Elevator;
 
 namespace Elevator.Challenge.Infrastructure.Elevator
 {

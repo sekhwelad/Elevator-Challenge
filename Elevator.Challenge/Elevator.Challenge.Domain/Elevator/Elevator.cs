@@ -1,4 +1,5 @@
-﻿
+﻿using Elevator.Challenge.Domain.Exceptions;
+
 namespace Elevator.Challenge.Domain.Elevator
 {
     public abstract class Elevator
@@ -29,10 +30,15 @@ namespace Elevator.Challenge.Domain.Elevator
             CurrentFloor = floor;
         }
 
+        private void SimulateElevatorMovement(ElevatorDirection direction)
+        {
+
+        }
+
         public void AddLoad(int count)
         {
             if (PassengerNumber + count > MaxPassengers)
-                throw new InvalidOperationException("Exceeds maximum limit.");
+                throw new CapacityExceededException("Exceeds maximum limit."); 
             PassengerNumber += count;
         }
 
@@ -58,7 +64,8 @@ namespace Elevator.Challenge.Domain.Elevator
         public override string ToString()
         {
 
-            return $"Elevator {Id}: Type : {ElevatorType} Floor {CurrentFloor}, Status {Status}, Direction {Direction}, Passengers {PassengerNumber}/{MaxPassengers}";
+            
+            return $" {Id}   {ElevatorType}     {CurrentFloor}      {Status}         {Direction}        {PassengerNumber}/{MaxPassengers}";
         }
     }
 }
