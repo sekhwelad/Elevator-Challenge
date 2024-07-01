@@ -2,12 +2,16 @@
 using Elevator.Challenge.Domain.Building;
 using Elevator.Challenge.Domain.Elevator;
 using Elevator.Challenge.Infrastructure.Elevator;
+using System.ComponentModel.DataAnnotations;
+using FluentValidation.Results;
+
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         var elevatorDispatcher = new ElevatorDispatcher();
+        ElevatorRequestValidator validator = null;
         const int totalFloors = 11, numberOfElevators = 3;
 
         string[] floors = new string[11];
@@ -23,9 +27,8 @@ class Program
 
         while (true)
         {
-            try
-            {
-                Console.Clear();
+           
+                //Console.Clear();
                 Console.WriteLine($"\n*************************** Elevator Status ***************************");
                 building.ShowElevatorStatus();
 
@@ -33,33 +36,42 @@ class Program
                 Console.WriteLine($"\n 1: {ElevatorType.Passenger}          2: {ElevatorType.Freight}");
                 Console.WriteLine($"\n*******************************************************");
 
-
-
-
+            try
+            {
                 Console.WriteLine("\nEnter the Elevator type Number:");
-                var elevatorType = (ElevatorType)int.Parse(Console.ReadLine());
+                var elevatorType = (ElevatorType)int.Parse(await ReadLineAsync());
+
+                if (!Enum.IsDefined(typeof(ElevatorType), elevatorType))
+                    throw new InvalidElevatorException("Elevator exception, Please choose a valid elevator.");
 
                 Console.WriteLine($"\n******************* Elevator Floors *******************");
                 DrawRowOfBoxes(floors);
 
                 Console.WriteLine("\nEnter the source floor:");
-                int sourceFloor = int.Parse(Console.ReadLine());
+                int sourceFloor = int.Parse(await ReadLineAsync());
+
+                if (sourceFloor > building.TotalFloors)
+                    throw new InvalidFloorException($"\nInvalid floor exception ,Please choose a valid floor.");
 
                 Console.WriteLine("Enter the destination floor:");
-                int destinationFloor = int.Parse(Console.ReadLine());
+                int destinationFloor = int.Parse(await ReadLineAsync());
 
                 if (destinationFloor > building.TotalFloors)
-                    throw new InvalidFloorException($"Invalid floor exception,. Please choose a valid floor.");
+                    throw new InvalidFloorException($"Invalid floor exception ,Please choose a valid floor.");
 
                 if (elevatorType == ElevatorType.Passenger)
                     Console.WriteLine("Enter the number of passengers:");
                 else
                     Console.WriteLine("Enter the weight of goods:");
 
-                int passengerCount = int.Parse(Console.ReadLine());
+                int passengerCount = int.Parse(await ReadLineAsync());
+
+                if (passengerCount < 1)
+                    throw new InvalidLoadException("Invalid load exception, Please enter load greater than 0");
                 Console.WriteLine("\n");
 
                 var request = new ElevatorRequest(sourceFloor, destinationFloor, passengerCount, elevatorType);
+             
                 building.RequestElevator(request);
 
                 Console.WriteLine("\n Press any key to make another request or 'q' to quit.");
@@ -70,10 +82,17 @@ class Program
             }
             catch (Exception ex)
             {
-
-                Console.WriteLine(ex.Message)
+                Console.Clear();
+               
+             
+                Console.WriteLine($" ERROR - {ex.Message}");
             }
+           
         }
+    }
+    static Task<string> ReadLineAsync()
+    {
+        return Task.Run(()=> Console.ReadLine());
     }
 
     static void DrawRowOfBoxes(string[] values)

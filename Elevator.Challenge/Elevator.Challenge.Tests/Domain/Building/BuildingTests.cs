@@ -1,10 +1,6 @@
 ﻿
 using Elevator.Challenge.Domain.Elevator;
-using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.Utilities;
 using NSubstitute;
-using NSubstitute.Core;
-using Elevator = Elevator.Challenge.Domain.Elevator.Elevator;
 
 namespace Elevator.Challenge.Tests.Domain.Building
 {

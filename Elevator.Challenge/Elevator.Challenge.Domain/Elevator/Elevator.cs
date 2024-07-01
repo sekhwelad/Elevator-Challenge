@@ -11,6 +11,8 @@ namespace Elevator.Challenge.Domain.Elevator
         public int PassengerNumber { get; private set; }
         public int MaxPassengers { get; }
         public ElevatorType ElevatorType { get; set; }
+        public bool IsDoorOpen { get; set; }
+        public List<ElevatorRequest> Requests { get; set; }
 
         protected Elevator(int id, int maxPassengers)
         {
@@ -20,6 +22,7 @@ namespace Elevator.Challenge.Domain.Elevator
             Direction = ElevatorDirection.NotMoving;
             PassengerNumber = 0;
             MaxPassengers = maxPassengers;
+            IsDoorOpen = false;
         }
 
         public void MoveToFloorNumber(int floor)
@@ -39,14 +42,18 @@ namespace Elevator.Challenge.Domain.Elevator
         {
             if (PassengerNumber + count > MaxPassengers)
                 throw new CapacityExceededException("Exceeds maximum limit."); 
+            IsDoorOpen = true;
             PassengerNumber += count;
+            IsDoorOpen = false;
         }
 
         public void Offload(int count)
         {
             if (PassengerNumber - count < 0)
                 throw new InvalidOperationException("Load cannot be negative.");
+            IsDoorOpen = true;
             PassengerNumber -= count;
+            IsDoorOpen = false;
         }
 
         public void SetStationary(int passengerNumber)
@@ -63,8 +70,6 @@ namespace Elevator.Challenge.Domain.Elevator
 
         public override string ToString()
         {
-
-            
             return $" {Id}   {ElevatorType}     {CurrentFloor}      {Status}         {Direction}        {PassengerNumber}/{MaxPassengers}";
         }
     }
