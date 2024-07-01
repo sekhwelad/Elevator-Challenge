@@ -1,5 +1,4 @@
-﻿
-namespace Elevator.Challenge.Application.Exceptions
+﻿namespace Elevator.Challenge.Application.Exceptions
 {
     public sealed class InvalidFloorException : Exception
     {

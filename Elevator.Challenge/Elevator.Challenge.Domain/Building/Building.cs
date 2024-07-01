@@ -28,6 +28,8 @@ namespace Elevator.Challenge.Domain.Building
             var elevator = _elevatorDispatcher.AssignElevator(_elevators, request);
             if (elevator != null)
             {
+                Console.WriteLine($"\nFloor selection registered, Elevator Id {elevator.Id} heading your way");
+                Console.WriteLine($"");
                 elevator.AddLoad(request.PassengerNumber);
                 elevator.MoveToFloorNumber(request.SourceFloor);
                 Console.WriteLine($"{elevator}");

@@ -12,8 +12,6 @@ namespace Elevator.Challenge.Domain.Elevator
         public int MaxPassengers { get; }
         public ElevatorType ElevatorType { get; set; }
         public bool IsDoorOpen { get; set; }
-        public List<ElevatorRequest> Requests { get; set; }
-
         protected Elevator(int id, int maxPassengers)
         {
             Id = id;
@@ -31,11 +29,6 @@ namespace Elevator.Challenge.Domain.Elevator
 
             Direction = CurrentFloor < floor ? ElevatorDirection.Up : ElevatorDirection.Down;
             CurrentFloor = floor;
-        }
-
-        private void SimulateElevatorMovement(ElevatorDirection direction)
-        {
-
         }
 
         public void AddLoad(int count)
@@ -62,10 +55,10 @@ namespace Elevator.Challenge.Domain.Elevator
             Direction = ElevatorDirection.NotMoving;
 
             if (ElevatorType == ElevatorType.Passenger)
-                Console.WriteLine($"Offloaded {passengerNumber} Passengers, Elevator now {ElevatorStatus.Stationary}");
+                Console.WriteLine($"\nOffloaded {passengerNumber} Passengers, Elevator now {ElevatorStatus.Stationary}");
 
             if (ElevatorType == ElevatorType.Freight)
-                Console.WriteLine($"Offloaded {passengerNumber} KGs of Goods, Elevator now {ElevatorStatus.Stationary}");
+                Console.WriteLine($"\nOffloaded {passengerNumber} KGs of Goods, Elevator now {ElevatorStatus.Stationary}");
         }
 
         public override string ToString()

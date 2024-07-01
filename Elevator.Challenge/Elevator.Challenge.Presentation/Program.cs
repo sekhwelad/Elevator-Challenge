@@ -2,16 +2,12 @@
 using Elevator.Challenge.Domain.Building;
 using Elevator.Challenge.Domain.Elevator;
 using Elevator.Challenge.Infrastructure.Elevator;
-using System.ComponentModel.DataAnnotations;
-using FluentValidation.Results;
-
 
 class Program
 {
     static async Task Main(string[] args)
     {
         var elevatorDispatcher = new ElevatorDispatcher();
-        ElevatorRequestValidator validator = null;
         const int totalFloors = 11, numberOfElevators = 3;
 
         string[] floors = new string[11];
@@ -70,7 +66,7 @@ class Program
                     throw new InvalidLoadException("Invalid load exception, Please enter load greater than 0");
                 Console.WriteLine("\n");
 
-                validator = new ElevatorRequestValidator();
+                ElevatorRequestValidator validator = new ElevatorRequestValidator();
 
                 var request = new ElevatorRequest(sourceFloor, destinationFloor, passengerCount, elevatorType);
                 var validationResult = validator.Validate(request);
@@ -102,8 +98,6 @@ class Program
                 Console.Clear();
                 Console.WriteLine($" ERROR - {ex.Message}");
             }
-           
- 
            
         }
     }
