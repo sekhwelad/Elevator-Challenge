@@ -2,11 +2,29 @@
 using Elevator.Challenge.Domain.Building;
 using Elevator.Challenge.Domain.Elevator;
 using Elevator.Challenge.Infrastructure.Elevator;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 class Program
 {
     static async Task Main(string[] args)
     {
+        Log.Logger = new LoggerConfiguration()
+               .WriteTo.File("C:\\Logs\\Elevator\\Elevator-.log", rollingInterval: RollingInterval.Day)
+               .CreateLogger();
+
+        // Create a service collection and configure logging
+        var serviceCollection = new ServiceCollection();
+       // ConfigureServices(serviceCollection);
+        serviceCollection.AddLogging(configure => configure.AddSerilog());
+
+        var serviceProvider = serviceCollection.BuildServiceProvider();
+
+        var logger = serviceProvider.GetService<ILogger<Program>>();
+
+        logger.LogInformation($"Application Started at {DateTime.Now}");
+
         var elevatorDispatcher = new ElevatorDispatcher();
         const int totalFloors = 11, numberOfElevators = 3;
 
@@ -18,8 +36,6 @@ class Program
         }
 
         var building = new Building(totalFloors, numberOfElevators, elevatorDispatcher);
-
-        
 
         while (true)
         {
@@ -81,6 +97,7 @@ class Program
                 Console.WriteLine("\n Press any key to make another request or 'q' to quit.");
                 if (Console.ReadLine()?.ToLower() == "q")
                 {
+                    logger.LogInformation($"Application Stopping at {DateTime.Now}");
                     break;
                 }
             }
@@ -91,12 +108,14 @@ class Program
                 foreach (var error in ex.Errors)
                 {
                     Console.WriteLine($"Property {error.PropertyName} failed validation. Error: {error.ErrorMessage}");
+                    logger.LogError(ex, $"Property {error.PropertyName} failed validation. Error: {error.ErrorMessage}");
                 }
             }
             catch (Exception ex)
             {
                 Console.Clear();
                 Console.WriteLine($" ERROR - {ex.Message}");
+                logger.LogError(ex,$"ERROR {ex.Message}");
             }
            
         }
