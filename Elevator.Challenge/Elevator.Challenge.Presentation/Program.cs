@@ -70,8 +70,16 @@ class Program
                     throw new InvalidLoadException("Invalid load exception, Please enter load greater than 0");
                 Console.WriteLine("\n");
 
+                validator = new ElevatorRequestValidator();
+
                 var request = new ElevatorRequest(sourceFloor, destinationFloor, passengerCount, elevatorType);
-             
+                var validationResult = validator.Validate(request);
+
+                if (!validationResult.IsValid)
+                {
+                    throw new ElevatorValidationException("Failed Validation", validationResult.Errors);
+                }
+
                 building.RequestElevator(request);
 
                 Console.WriteLine("\n Press any key to make another request or 'q' to quit.");
@@ -80,13 +88,22 @@ class Program
                     break;
                 }
             }
+            catch (ElevatorValidationException ex)
+            {
+                Console.Clear();
+                Console.WriteLine("Invalid Request");
+                foreach (var error in ex.Errors)
+                {
+                    Console.WriteLine($"Property {error.PropertyName} failed validation. Error: {error.ErrorMessage}");
+                }
+            }
             catch (Exception ex)
             {
                 Console.Clear();
-               
-             
                 Console.WriteLine($" ERROR - {ex.Message}");
             }
+           
+ 
            
         }
     }
