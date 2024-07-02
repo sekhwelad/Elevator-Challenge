@@ -1,18 +1,26 @@
 ﻿using Elevator.Challenge.Domain.Elevator;
 using Elevator.Challenge.Domain.Exceptions;
 using FluentAssertions;
+using Microsoft.Extensions.Logging;
+using NSubstitute;
 using System.Reflection;
 
 namespace Elevator.Challenge.Tests.Domain
 {
     public class ElevatorTests
     {
+        private readonly ILogger _loggerMock;
+
+        public ElevatorTests()
+        {
+            _loggerMock = Substitute.For<ILogger>();
+        }
         [Fact]
         public void AddLoad_Should_ThrowAnException_WhenLoadExceedsMaxPassengers()
         {
             int maxPassengers = 10;
             int load = 11;
-            var elevator = new PassengerElevator(1, maxPassengers);
+            var elevator = new PassengerElevator(1, maxPassengers, _loggerMock);
 
             var exception = Assert.Throws<CapacityExceededException>(() => elevator.AddLoad(load));
 
@@ -26,7 +34,7 @@ namespace Elevator.Challenge.Tests.Domain
             int load = 6;
             int currentPassengers = 0;
             int passengerNumber = currentPassengers + load;
-            var elevator = new PassengerElevator(1, maxPassengers);
+            var elevator = new PassengerElevator(1, maxPassengers, _loggerMock);
            
             elevator.AddLoad(load);
 
@@ -38,7 +46,7 @@ namespace Elevator.Challenge.Tests.Domain
         {
             int maxPassengers = 10;
             int load = 5;
-            var elevator = new PassengerElevator(1, maxPassengers);
+            var elevator = new PassengerElevator(1, maxPassengers, _loggerMock);
 
             var exception = Assert.Throws<InvalidOperationException>(() => elevator.Offload(load));
 
@@ -50,7 +58,7 @@ namespace Elevator.Challenge.Tests.Domain
         {
             int maxPassengers = 10;
             int subtractLoad = 5;
-            var elevator = new PassengerElevator(1, maxPassengers);
+            var elevator = new PassengerElevator(1, maxPassengers, _loggerMock);
             SetPrivateProperty(elevator, 5,nameof(elevator.PassengerNumber));
 
             elevator.Offload(subtractLoad);
@@ -61,7 +69,7 @@ namespace Elevator.Challenge.Tests.Domain
         [Fact]
         public void SetStationary_Should_SetStatusToStationery()
         {
-            var elevator = new PassengerElevator(1, 10);
+            var elevator = new PassengerElevator(1, 10, _loggerMock);
             SetPrivateProperty(elevator, ElevatorStatus.Stationary,nameof(elevator.PassengerNumber));
 
             elevator.SetStationary(5);
@@ -72,7 +80,7 @@ namespace Elevator.Challenge.Tests.Domain
         [Fact]
         public void SetStationary_Should_SetStatusToNotMoving()
         {
-            var elevator = new PassengerElevator(1, 10);
+            var elevator = new PassengerElevator(1, 10, _loggerMock);
 
             elevator.SetStationary(5);
 
@@ -81,7 +89,7 @@ namespace Elevator.Challenge.Tests.Domain
         [Fact]
         public void MoveToFloorNumber_Should_SetDirectionToUp()
         {
-            var elevator = new PassengerElevator(1, 10);
+            var elevator = new PassengerElevator(1, 10, _loggerMock);
             SetPrivateProperty(elevator, elevator.CurrentFloor, nameof(elevator.CurrentFloor));
 
             elevator.MoveToFloorNumber(8);
@@ -93,7 +101,7 @@ namespace Elevator.Challenge.Tests.Domain
         [Fact]
         public void MoveToFloorNumber_Should_SetDirectionToDown()
         {
-            var elevator = new PassengerElevator(1, 10);
+            var elevator = new PassengerElevator(1, 10, _loggerMock);
             SetPrivateProperty(elevator, 8, nameof(elevator.CurrentFloor));
 
             elevator.MoveToFloorNumber(1);
@@ -105,7 +113,7 @@ namespace Elevator.Challenge.Tests.Domain
         [Fact]
         public void MoveToFloorNumber_Should_SetElevatorStatusToMoving()
         {
-            var elevator = new PassengerElevator(1, 10);
+            var elevator = new PassengerElevator(1, 10, _loggerMock);
 
             elevator.MoveToFloorNumber(1);
 

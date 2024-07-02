@@ -1,4 +1,5 @@
 ﻿using Elevator.Challenge.Domain.Exceptions;
+using Microsoft.Extensions.Logging;
 
 namespace Elevator.Challenge.Domain.Elevator
 {
@@ -12,7 +13,10 @@ namespace Elevator.Challenge.Domain.Elevator
         public int MaxPassengers { get; }
         public ElevatorType ElevatorType { get; set; }
         public bool IsDoorOpen { get; set; }
-        protected Elevator(int id, int maxPassengers)
+
+        private readonly ILogger _logger;
+
+        protected Elevator(int id, int maxPassengers, ILogger logger)
         {
             Id = id;
             CurrentFloor = 0;
@@ -21,44 +25,82 @@ namespace Elevator.Challenge.Domain.Elevator
             PassengerNumber = 0;
             MaxPassengers = maxPassengers;
             IsDoorOpen = false;
+
+            _logger = logger;   
         }
 
         public void MoveToFloorNumber(int floor)
         {
-            Status = ElevatorStatus.Moving;
+            _logger.LogInformation("MoveToFloorNumber() Invoked");
+            try
+            {
+               
+                Status = ElevatorStatus.Moving;
 
-            Direction = CurrentFloor < floor ? ElevatorDirection.Up : ElevatorDirection.Down;
-            CurrentFloor = floor;
+                Direction = CurrentFloor < floor ? ElevatorDirection.Up : ElevatorDirection.Down;
+                CurrentFloor = floor;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"ERROR at {typeof(Elevator)} MoveToFloorNumber() {ex.Message}", ex.InnerException);
+            }
         }
 
         public void AddLoad(int count)
         {
-            if (PassengerNumber + count > MaxPassengers)
-                throw new CapacityExceededException("Exceeds maximum limit."); 
-            IsDoorOpen = true;
-            PassengerNumber += count;
-            IsDoorOpen = false;
+            _logger.LogInformation("AddLoad() Invoked");
+
+            try
+            {
+                
+                if (PassengerNumber + count > MaxPassengers)
+                    throw new CapacityExceededException("Exceeds maximum limit.");
+                IsDoorOpen = true;
+                PassengerNumber += count;
+                IsDoorOpen = false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"ERROR at {typeof(Elevator)} AddLoad() {ex.Message}", ex.InnerException);
+            }
         }
 
         public void Offload(int count)
         {
-            if (PassengerNumber - count < 0)
-                throw new InvalidOperationException("Load cannot be negative.");
-            IsDoorOpen = true;
-            PassengerNumber -= count;
-            IsDoorOpen = false;
+            _logger.LogInformation("Offload() Invoked");
+            try
+            {
+                if (PassengerNumber - count < 0)
+                    throw new InvalidOperationException("Load cannot be negative.");
+                IsDoorOpen = true;
+                PassengerNumber -= count;
+                IsDoorOpen = false;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"ERROR at {typeof(Elevator)} Offload() {ex.Message}", ex.InnerException);
+            }
         }
 
         public void SetStationary(int passengerNumber)
         {
-            Status = ElevatorStatus.Stationary;
-            Direction = ElevatorDirection.NotMoving;
+            _logger.LogInformation("SetStationary() Invoked");
+            try
+            {
+                Status = ElevatorStatus.Stationary;
+                Direction = ElevatorDirection.NotMoving;
 
-            if (ElevatorType == ElevatorType.Passenger)
-                Console.WriteLine($"\nOffloaded {passengerNumber} Passengers, Elevator now {ElevatorStatus.Stationary}");
+                if (ElevatorType == ElevatorType.Passenger)
+                    Console.WriteLine($"\nOffloaded {passengerNumber} Passengers, Elevator now {ElevatorStatus.Stationary}");
 
-            if (ElevatorType == ElevatorType.Freight)
-                Console.WriteLine($"\nOffloaded {passengerNumber} KGs of Goods, Elevator now {ElevatorStatus.Stationary}");
+                if (ElevatorType == ElevatorType.Freight)
+                    Console.WriteLine($"\nOffloaded {passengerNumber} KGs of Goods, Elevator now {ElevatorStatus.Stationary}");
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError(ex, $"ERROR at {typeof(Elevator)} SetStationary() {ex.Message}", ex.InnerException);
+            }
         }
 
         public override string ToString()

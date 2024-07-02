@@ -1,4 +1,5 @@
 ﻿using Elevator.Challenge.Application.Exceptions;
+using Elevator.Challenge.Application.Extensions;
 using Elevator.Challenge.Domain.Building;
 using Elevator.Challenge.Domain.Elevator;
 using Elevator.Challenge.Infrastructure.Elevator;
@@ -8,34 +9,30 @@ using Serilog;
 
 class Program
 {
+    
     static async Task Main(string[] args)
     {
-        Log.Logger = new LoggerConfiguration()
-               .WriteTo.File("C:\\Logs\\Elevator\\Elevator-.log", rollingInterval: RollingInterval.Day)
-               .CreateLogger();
-
-        // Create a service collection and configure logging
+        
+        // Creating a service collection to configure logging
         var serviceCollection = new ServiceCollection();
-       // ConfigureServices(serviceCollection);
-        serviceCollection.AddLogging(configure => configure.AddSerilog());
-
+        ApplicationExtensions.ConfigureServices(serviceCollection);
         var serviceProvider = serviceCollection.BuildServiceProvider();
-
         var logger = serviceProvider.GetService<ILogger<Program>>();
 
-        logger.LogInformation($"Application Started at {DateTime.Now}");
+
+        logger?.LogInformation($"Application Started at {DateTime.Now}");
 
         var elevatorDispatcher = new ElevatorDispatcher();
         const int totalFloors = 11, numberOfElevators = 3;
 
-        string[] floors = new string[11];
+        string[] floors = new string[totalFloors];
 
         for (int i = 0; i < floors.Length; i++)
         {
             floors[i]= i.ToString();
         }
 
-        var building = new Building(totalFloors, numberOfElevators, elevatorDispatcher);
+        var building = new Building(totalFloors, numberOfElevators, elevatorDispatcher,logger);
 
         while (true)
         {
@@ -108,14 +105,14 @@ class Program
                 foreach (var error in ex.Errors)
                 {
                     Console.WriteLine($"Property {error.PropertyName} failed validation. Error: {error.ErrorMessage}");
-                    logger.LogError(ex, $"Property {error.PropertyName} failed validation. Error: {error.ErrorMessage}");
+                    logger.LogError(ex, $"Property {error.PropertyName} failed validation. Error: {error.ErrorMessage}",ex.InnerException);
                 }
             }
             catch (Exception ex)
             {
                 Console.Clear();
                 Console.WriteLine($" ERROR - {ex.Message}");
-                logger.LogError(ex,$"ERROR {ex.Message}");
+                logger.LogError(ex,$"ERROR {ex.Message}",ex.InnerException);
             }
            
         }

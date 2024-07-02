@@ -1,5 +1,6 @@
 ﻿
 using Elevator.Challenge.Domain.Elevator;
+using Microsoft.Extensions.Logging;
 using NSubstitute;
 
 namespace Elevator.Challenge.Tests.Domain.Building
@@ -8,14 +9,14 @@ namespace Elevator.Challenge.Tests.Domain.Building
     {
         private readonly List<Challenge.Domain.Elevator.Elevator> _elevators;
         private readonly IElevatorDispatcher _elevatorDispatcherMock;
+        private readonly ILogger _loggerMock;
 
         public BuildingTests()
         {
            
             _elevatorDispatcherMock = Substitute.For<IElevatorDispatcher>();
+            _loggerMock = Substitute.For<ILogger>();
             _elevators = new List<Challenge.Domain.Elevator.Elevator>();
-
-            AddElevatorData();
         }
 
         [Fact]
@@ -35,7 +36,7 @@ namespace Elevator.Challenge.Tests.Domain.Building
             Console.SetOut(outputResults);
 
 
-            var building = new Challenge.Domain.Building.Building(10, 3, _elevatorDispatcherMock);
+            var building = new Challenge.Domain.Building.Building(10, 3, _elevatorDispatcherMock, _loggerMock);
             building.ShowElevatorStatus();
 
             var results = outputResults.ToString();
@@ -51,7 +52,7 @@ namespace Elevator.Challenge.Tests.Domain.Building
             _elevatorDispatcherMock.AssignElevator(Arg.Any<List<Challenge.Domain.Elevator.Elevator>>(), Arg.Any<ElevatorRequest>())
               .Returns(elevator);
 
-            var building = new Challenge.Domain.Building.Building(10, 3, _elevatorDispatcherMock);
+            var building = new Challenge.Domain.Building.Building(10, 3, _elevatorDispatcherMock, _loggerMock);
             building.RequestElevator(request);
 
             elevator.Received().AddLoad(request.PassengerNumber);
@@ -62,10 +63,5 @@ namespace Elevator.Challenge.Tests.Domain.Building
         }
 
 
-        public void AddElevatorData()
-        {
-            _elevators.Add(new PassengerElevator(1, 10));
-            _elevators.Add(new FreightElevator(2, 100));
-        }
     }
 }
