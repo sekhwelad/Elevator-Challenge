@@ -89,7 +89,6 @@ class Program
                 }
 
                 building.RequestElevator(request);
-                building.ShowElevatorStatus();
 
                 Console.WriteLine("\n Press any key to make another request or 'q' to quit.");
                 if (Console.ReadLine()?.ToLower() == "q")
@@ -110,7 +109,6 @@ class Program
             }
             catch (Exception ex)
             {
-                Console.Clear();
                 Console.WriteLine($"ERROR - {ex.Message}");
                 logger.LogError(ex,$"ERROR {ex.Message}",ex.InnerException);
             }

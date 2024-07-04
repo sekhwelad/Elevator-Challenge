@@ -43,14 +43,14 @@ namespace Elevator.Challenge.Domain.Building
                 var elevator = _elevatorDispatcher.AssignElevator(_elevators, request);
                 if (elevator != null)
                 {
-                    Console.WriteLine($"\nFloor selection registered, Elevator Id {elevator.Id} heading your way");
+                    Console.WriteLine($"\n Floor selection registered, Elevator Id {elevator.Id} moving from floor {elevator.CurrentFloor}");
                     Console.WriteLine($"");
                     elevator.AddLoad(request.PassengerNumber);
-                    elevator.MoveToFloorNumber(request.SourceFloor);
-                    Console.WriteLine($"{elevator}");
+                    elevator.MoveToFloorNumber(request.SourceFloor,false);
+                    //Console.WriteLine($"{elevator}");
 
-                    elevator.MoveToFloorNumber(request.DestinationFloor);
-                    Console.WriteLine($"{elevator}");
+                    elevator.MoveToFloorNumber(request.DestinationFloor,true);
+                    //Console.WriteLine($"{elevator}");
 
                     elevator.Offload(request.PassengerNumber);
                     elevator.SetStationary(request.PassengerNumber);

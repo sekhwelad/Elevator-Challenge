@@ -29,16 +29,20 @@ namespace Elevator.Challenge.Domain.Elevator
             _logger = logger;   
         }
 
-        public void MoveToFloorNumber(int floor)
+        public void MoveToFloorNumber(int floor,bool isDestination)
         {
             _logger.LogInformation("MoveToFloorNumber() Invoked");
             try
             {
                
-                Status = ElevatorStatus.Moving;
-
-                Direction = CurrentFloor < floor ? ElevatorDirection.Up : ElevatorDirection.Down;
+                Status =  CurrentFloor == floor ? ElevatorStatus.Stationary : ElevatorStatus.Moving;
+                Direction = CurrentFloor < floor ? ElevatorDirection.Up :
+                            CurrentFloor == floor ? ElevatorDirection.NotMoving :
+                            ElevatorDirection.Down;
                 CurrentFloor = floor;
+
+                Console.WriteLine($"\n Elevator {Id} Is {Status} Direction :{Direction}");
+                Console.WriteLine(!isDestination ? $" Elevator {Id} at Floor {floor} Fetching {PassengerNumber} Passengers" : $" Elevator {Id} at Floor {floor} Dropping {PassengerNumber} Passengers");
             }
             catch (Exception ex)
             {
@@ -75,11 +79,8 @@ namespace Elevator.Challenge.Domain.Elevator
                     throw new InvalidOperationException("Load cannot be negative.");
 
                 IsDoorOpen = true;
-                Console.WriteLine("\n Elevator Door : OPEN");
                 PassengerNumber -= count;
-                Console.WriteLine(" Now Offloading");
                 IsDoorOpen = false;
-                Console.WriteLine(" Elevator Door : CLOSED");
             }
             catch (Exception ex)
             {

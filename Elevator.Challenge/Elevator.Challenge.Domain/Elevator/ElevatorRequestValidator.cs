@@ -17,11 +17,11 @@ namespace Elevator.Challenge.Domain.Elevator
 
             RuleFor(request => request.SourceFloor)
                 .GreaterThanOrEqualTo(0)
-                .LessThanOrEqualTo(request => request.DestinationFloor);
+                 .WithMessage("Must be greater than or Equal to 0");
 
             RuleFor(request => request.DestinationFloor)
                 .GreaterThanOrEqualTo(0)
-                .LessThanOrEqualTo(request => request.DestinationFloor);
+                  .WithMessage("Must be greater than or Equal to 0");
 
             RuleFor(request => request.PassengerNumber)
                .GreaterThan(0)
