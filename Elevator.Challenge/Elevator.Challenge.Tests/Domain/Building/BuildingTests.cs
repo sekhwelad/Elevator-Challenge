@@ -52,11 +52,11 @@ namespace Elevator.Challenge.Tests.Domain.Building
             _elevatorDispatcherMock.AssignElevator(Arg.Any<List<Challenge.Domain.Elevator.Elevator>>(), Arg.Any<ElevatorRequest>())
               .Returns(elevator);
 
-            var building = new Challenge.Domain.Building.Building(10, 3, _elevatorDispatcherMock, _loggerMock);
+            var building = new Challenge.Domain.Building.Building(_elevatorDispatcherMock, _loggerMock);
             building.RequestElevator(request);
 
             elevator.Received().AddLoad(request.PassengerNumber);
-            elevator.Received().MoveToFloorNumber(request.SourceFloor,false);
+            elevator.Received().MoveToFloorNumber(request.PickUpFloor,false);
             elevator.Received().MoveToFloorNumber(request.DestinationFloor,true);
             elevator.Received().Offload(request.PassengerNumber);
             elevator.Received().SetStationary(request.PassengerNumber);

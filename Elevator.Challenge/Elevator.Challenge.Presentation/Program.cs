@@ -22,16 +22,17 @@ class Program
         logger?.LogInformation($"Application Started at {DateTime.Now}");
 
         var elevatorDispatcher = new ElevatorDispatcher();
-        const int totalFloors = 11, numberOfElevators = 3;
 
-        string[] floors = new string[totalFloors];
+        var building = new Building(elevatorDispatcher, logger);
+
+
+        string[] floors = new string[building.TotalFloors];
 
         for (int i = 0; i < floors.Length; i++)
         {
             floors[i]= i.ToString();
         }
 
-        var building = new Building(totalFloors, numberOfElevators, elevatorDispatcher,logger);
 
         while (true)
         {
@@ -55,10 +56,10 @@ class Program
                 Console.WriteLine($"\n******************* Elevator Floors *******************");
                 DrawRowOfBoxes(floors);
 
-                Console.WriteLine("\nEnter the source floor:");
-                int sourceFloor = int.Parse(await ReadLineAsync());
+                Console.WriteLine("\nEnter pick up floor:");
+                int PickUpFloor = int.Parse(await ReadLineAsync());
 
-                if (sourceFloor > building.TotalFloors)
+                if (PickUpFloor > building.TotalFloors)
                     throw new InvalidFloorException($"\nInvalid floor exception ,Please choose a valid floor.");
 
                 Console.WriteLine("Enter the destination floor:");
@@ -80,7 +81,7 @@ class Program
 
                 ElevatorRequestValidator validator = new ElevatorRequestValidator();
 
-                var request = new ElevatorRequest(sourceFloor, destinationFloor, passengerCount, elevatorType);
+                var request = new ElevatorRequest(PickUpFloor, destinationFloor, passengerCount, elevatorType);
                 var validationResult = validator.Validate(request);
 
                 if (!validationResult.IsValid)

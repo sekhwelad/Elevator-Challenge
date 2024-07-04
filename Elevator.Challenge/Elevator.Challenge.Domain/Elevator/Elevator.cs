@@ -11,6 +11,7 @@ namespace Elevator.Challenge.Domain.Elevator
         public int CurrentFloor { get; private set; }
         public int PassengerNumber { get; private set; }
         public int MaxPassengers { get; }
+        public int InitialLoad { get; private set; }
         public ElevatorType ElevatorType { get; set; }
         public bool IsDoorOpen { get; set; }
 
@@ -25,7 +26,7 @@ namespace Elevator.Challenge.Domain.Elevator
             PassengerNumber = 0;
             MaxPassengers = maxPassengers;
             IsDoorOpen = false;
-
+            InitialLoad = 0;
             _logger = logger;   
         }
 
@@ -41,8 +42,11 @@ namespace Elevator.Challenge.Domain.Elevator
                             ElevatorDirection.Down;
                 CurrentFloor = floor;
 
-                Console.WriteLine($"\n Elevator {Id} Is {Status} Direction :{Direction}");
+                var capacity = Status == ElevatorStatus.Moving ? $"Capacity {InitialLoad} Passengers" : "";
+                Console.WriteLine($"\n Elevator {Id} Is {Status} Direction :{Direction} {capacity} ");
                 Console.WriteLine(!isDestination ? $" Elevator {Id} at Floor {floor} Fetching {PassengerNumber} Passengers" : $" Elevator {Id} at Floor {floor} Dropping {PassengerNumber} Passengers");
+
+                InitialLoad = PassengerNumber;
             }
             catch (Exception ex)
             {
@@ -78,6 +82,7 @@ namespace Elevator.Challenge.Domain.Elevator
                 if (PassengerNumber - count < 0)
                     throw new InvalidOperationException("Load cannot be negative.");
 
+                InitialLoad -= count;
                 IsDoorOpen = true;
                 PassengerNumber -= count;
                 IsDoorOpen = false;
@@ -102,6 +107,8 @@ namespace Elevator.Challenge.Domain.Elevator
 
                 if (ElevatorType == ElevatorType.Freight)
                     Console.WriteLine($"\nOffloaded {passengerNumber} KGs of Goods, Elevator now {ElevatorStatus.Stationary}");
+
+               
             }
             catch (Exception ex)
             {

@@ -6,33 +6,29 @@ namespace Elevator.Challenge.Domain.Building
 {
     public class Building
     {
-        private readonly List<Elevator.Elevator> _elevators;
+        private readonly List<Elevator.Elevator> _elevators = new();
         private readonly IElevatorDispatcher _elevatorDispatcher;
         private readonly ILogger _logger;
-        public int TotalFloors { get; }
 
-        public Building(int totalFloors, int numberOfElevators, IElevatorDispatcher elevatorDispatcher, ILogger logger)
+        public const int totalFloors = 11;
+        public int TotalFloors { get; private set; }
+        public int TotalElevators { get; private set; }
+
+        public Building(IElevatorDispatcher elevatorDispatcher, ILogger logger)
         {
-            TotalFloors = totalFloors;
-            _elevators = new List<Elevator.Elevator>();
             _logger = logger;
-
-            AddElevators(numberOfElevators);
+            AddElevators();
+            TotalFloors = totalFloors;
+            TotalElevators = _elevators.Count;
+           
             _elevatorDispatcher = elevatorDispatcher;
-
         }
 
-        private void AddElevators(int numberOfElevators)
-        {
-            for (int i = 1; i <= numberOfElevators; i++)
-            {
-                if(i<=2)
-                _elevators.Add(new PassengerElevator(i, 10, _logger));
-
-                if(i>2)
-                 _elevators.Add(new FreightElevator(i, 100, _logger));
-            }
-
+        private void AddElevators()
+        { 
+           _elevators.Add(new PassengerElevator(1, 10, _logger));
+           _elevators.Add(new PassengerElevator(2, 10, _logger));
+           _elevators.Add(new FreightElevator(3, 100, _logger));
         }
 
         public void RequestElevator(ElevatorRequest request)
@@ -47,11 +43,9 @@ namespace Elevator.Challenge.Domain.Building
                     Console.WriteLine($"\nFloor selection registered, Elevator Id {elevator.Id} {status} floor {elevator.CurrentFloor}");
                     Console.WriteLine($"");
                     elevator.AddLoad(request.PassengerNumber);
-                    elevator.MoveToFloorNumber(request.SourceFloor,false);
-                    //Console.WriteLine($"{elevator}");
+                    elevator.MoveToFloorNumber(request.PickUpFloor,false);
 
                     elevator.MoveToFloorNumber(request.DestinationFloor,true);
-                    //Console.WriteLine($"{elevator}");
 
                     elevator.Offload(request.PassengerNumber);
                     elevator.SetStationary(request.PassengerNumber);
