@@ -36,7 +36,7 @@ class Program
         while (true)
         {
            
-                //Console.Clear();
+               // Console.Clear();
                 Console.WriteLine($"\n*************************** Elevator Status ***************************");
                 building.ShowElevatorStatus();
 
@@ -89,6 +89,7 @@ class Program
                 }
 
                 building.RequestElevator(request);
+                building.ShowElevatorStatus();
 
                 Console.WriteLine("\n Press any key to make another request or 'q' to quit.");
                 if (Console.ReadLine()?.ToLower() == "q")
