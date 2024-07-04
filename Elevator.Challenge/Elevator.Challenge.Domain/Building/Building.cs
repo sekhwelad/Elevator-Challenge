@@ -15,16 +15,23 @@ namespace Elevator.Challenge.Domain.Building
         {
             TotalFloors = totalFloors;
             _elevators = new List<Elevator.Elevator>();
-            int x = 1;
             _logger = logger;
 
-            for (int i = 0; i < numberOfElevators; i++)
-            {
-                _elevators.Add(new PassengerElevator(i, 10,_logger));
-                _elevators.Add(new FreightElevator(i + x, 100,_logger));
-                i++;
-            }
+            AddElevators(numberOfElevators);
             _elevatorDispatcher = elevatorDispatcher;
+
+        }
+
+        private void AddElevators(int numberOfElevators)
+        {
+            for (int i = 1; i <= numberOfElevators; i++)
+            {
+                if(i<=2)
+                _elevators.Add(new PassengerElevator(i, 10, _logger));
+
+                if(i>2)
+                 _elevators.Add(new FreightElevator(i, 100, _logger));
+            }
 
         }
 

@@ -62,6 +62,7 @@ namespace Elevator.Challenge.Domain.Elevator
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"ERROR at {typeof(Elevator)} AddLoad() {ex.Message}", ex.InnerException);
+                throw;
             }
         }
 
@@ -72,13 +73,18 @@ namespace Elevator.Challenge.Domain.Elevator
             {
                 if (PassengerNumber - count < 0)
                     throw new InvalidOperationException("Load cannot be negative.");
+
                 IsDoorOpen = true;
+                Console.WriteLine("\n Elevator Door : OPEN");
                 PassengerNumber -= count;
+                Console.WriteLine(" Now Offloading");
                 IsDoorOpen = false;
+                Console.WriteLine(" Elevator Door : CLOSED");
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"ERROR at {typeof(Elevator)} Offload() {ex.Message}", ex.InnerException);
+                throw;
             }
         }
 
@@ -98,7 +104,6 @@ namespace Elevator.Challenge.Domain.Elevator
             }
             catch (Exception ex)
             {
-
                 _logger.LogError(ex, $"ERROR at {typeof(Elevator)} SetStationary() {ex.Message}", ex.InnerException);
             }
         }

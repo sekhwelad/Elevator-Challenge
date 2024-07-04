@@ -2,7 +2,7 @@
 
 namespace Elevator.Challenge.Application.Exceptions
 {
-    public class ElevatorValidationException : Exception
+    public sealed class ElevatorValidationException : Exception
     {
         public List<ValidationFailure> Errors { get; }
 

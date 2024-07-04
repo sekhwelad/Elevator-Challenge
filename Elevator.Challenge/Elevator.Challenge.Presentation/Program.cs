@@ -5,7 +5,6 @@ using Elevator.Challenge.Domain.Elevator;
 using Elevator.Challenge.Infrastructure.Elevator;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Serilog;
 
 class Program
 {
@@ -111,7 +110,7 @@ class Program
             catch (Exception ex)
             {
                 Console.Clear();
-                Console.WriteLine($" ERROR - {ex.Message}");
+                Console.WriteLine($"ERROR - {ex.Message}");
                 logger.LogError(ex,$"ERROR {ex.Message}",ex.InnerException);
             }
            
