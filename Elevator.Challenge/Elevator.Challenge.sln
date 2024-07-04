@@ -5,13 +5,15 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elevator.Challenge.Presentation", "Elevator.Challenge.Presentation\Elevator.Challenge.Presentation.csproj", "{2C84AD02-FCDF-41D1-8CB7-50F8FC2CF756}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elevator.Challenge.Application", "Elevator.Challenge.Application\Elevator.Challenge.Application.csproj", "{7659F8F8-801B-4DE0-B166-713BEC3463A8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elevator.Challenge.Application", "Elevator.Challenge.Application\Elevator.Challenge.Application.csproj", "{7659F8F8-801B-4DE0-B166-713BEC3463A8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elevator.Challenge.Domain", "Elevator.Challenge.Domain\Elevator.Challenge.Domain.csproj", "{D462D537-889E-4390-ABFA-20247832888E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elevator.Challenge.Domain", "Elevator.Challenge.Domain\Elevator.Challenge.Domain.csproj", "{D462D537-889E-4390-ABFA-20247832888E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elevator.Challenge.Infrastructure", "Elevator.Challenge.Infrastructure\Elevator.Challenge.Infrastructure.csproj", "{CAFDF3E3-4F7C-4EF3-8EFC-8DF73664826F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elevator.Challenge.Infrastructure", "Elevator.Challenge.Infrastructure\Elevator.Challenge.Infrastructure.csproj", "{CAFDF3E3-4F7C-4EF3-8EFC-8DF73664826F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elevator.Challenge.Tests", "Elevator.Challenge.Tests\Elevator.Challenge.Tests.csproj", "{8569AD64-7B42-413C-A92E-D22086D8D549}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Elevator.Challenge.Tests", "Elevator.Challenge.Tests\Elevator.Challenge.Tests.csproj", "{8569AD64-7B42-413C-A92E-D22086D8D549}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Elevator.Challenge.Tests.Architecture", "Elevator.Challenge.Tests.Architecture\Elevator.Challenge.Tests.Architecture.csproj", "{0D509F46-E413-463C-90E1-0610815F9143}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{8569AD64-7B42-413C-A92E-D22086D8D549}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8569AD64-7B42-413C-A92E-D22086D8D549}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8569AD64-7B42-413C-A92E-D22086D8D549}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D509F46-E413-463C-90E1-0610815F9143}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D509F46-E413-463C-90E1-0610815F9143}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D509F46-E413-463C-90E1-0610815F9143}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D509F46-E413-463C-90E1-0610815F9143}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
