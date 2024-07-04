@@ -56,8 +56,8 @@ namespace Elevator.Challenge.Tests.Domain.Building
             building.RequestElevator(request);
 
             elevator.Received().AddLoad(request.PassengerNumber);
-            elevator.Received().MoveToFloorNumber(request.SourceFloor);
-            elevator.Received().MoveToFloorNumber(request.DestinationFloor);
+            elevator.Received().MoveToFloorNumber(request.SourceFloor,false);
+            elevator.Received().MoveToFloorNumber(request.DestinationFloor,true);
             elevator.Received().Offload(request.PassengerNumber);
             elevator.Received().SetStationary(request.PassengerNumber);
         }

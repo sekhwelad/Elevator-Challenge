@@ -92,7 +92,7 @@ namespace Elevator.Challenge.Tests.Domain
             var elevator = new PassengerElevator(1, 10, _loggerMock);
             SetPrivateProperty(elevator, elevator.CurrentFloor, nameof(elevator.CurrentFloor));
 
-            elevator.MoveToFloorNumber(8);
+            elevator.MoveToFloorNumber(8, true);
 
             elevator.Direction.Should().Be(ElevatorDirection.Up);
 
@@ -104,7 +104,7 @@ namespace Elevator.Challenge.Tests.Domain
             var elevator = new PassengerElevator(1, 10, _loggerMock);
             SetPrivateProperty(elevator, 8, nameof(elevator.CurrentFloor));
 
-            elevator.MoveToFloorNumber(1);
+            elevator.MoveToFloorNumber(1,true);
 
             elevator.Direction.Should().Be(ElevatorDirection.Down);
 
@@ -115,7 +115,7 @@ namespace Elevator.Challenge.Tests.Domain
         {
             var elevator = new PassengerElevator(1, 10, _loggerMock);
 
-            elevator.MoveToFloorNumber(1);
+            elevator.MoveToFloorNumber(1,true);
 
             elevator.Status.Should().Be(ElevatorStatus.Moving);
         }

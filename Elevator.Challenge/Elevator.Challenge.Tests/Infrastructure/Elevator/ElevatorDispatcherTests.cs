@@ -1,6 +1,9 @@
 ﻿using Elevator.Challenge.Domain.Elevator;
+using Elevator.Challenge.Infrastructure.Elevator;
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using NSubstitute;
+using System.Reflection;
 
 namespace Elevator.Challenge.Tests.Infrastructure.Elevator
 {
@@ -8,20 +11,43 @@ namespace Elevator.Challenge.Tests.Infrastructure.Elevator
     {
         private readonly List<Challenge.Domain.Elevator.Elevator> _elevators;
         private readonly ILogger _loggerMock;
-
-
+        private readonly IElevatorDispatcher _elevatorDispatcher;
 
         public ElevatorDispatcherTests()
         {
             _loggerMock = Substitute.For<ILogger>();
+            _elevators = new();
+            _elevatorDispatcher = new ElevatorDispatcher();
         }
-        public void AddElevators()
+
+        [Fact]
+        public void AssignElevator_ShouldReturn_AtleastOneElevator()
         {
-            //var freight = new FreightElevator()
+            var request = new ElevatorRequest(0, 3, 5, ElevatorType.Passenger);
+            _elevators.Add(new PassengerElevator(1, 10, _loggerMock));
 
+            var elevator = _elevatorDispatcher.AssignElevator(_elevators, request);
 
-            //_elevators.Add(new PassengerElevator(1, 10, _loggerMock));
-
+            elevator.Should().NotBeNull();
+            elevator.CurrentFloor.Should().Be(0);
+            elevator.IsDoorOpen.Should().BeFalse(); 
         }
+
+        [Fact]
+        public void AssignElevator_ShouldReturn_NullWhenElevatorDoorIsOpen()
+        {
+            var request = new ElevatorRequest(0, 3, 5, ElevatorType.Passenger);
+           var openDoorElevator = new PassengerElevator(1, 10, _loggerMock);
+
+            var field = typeof(Challenge.Domain.Elevator.Elevator).GetField($"<{nameof(openDoorElevator.IsDoorOpen)}>k__BackingField", BindingFlags.NonPublic | BindingFlags.Instance);
+            field.SetValue(openDoorElevator, true);
+
+            _elevators.Add(openDoorElevator);
+
+            var elevator = _elevatorDispatcher.AssignElevator(_elevators, request);
+
+            elevator.Should().BeNull();
+        }
+        
     }
 }

@@ -43,7 +43,8 @@ namespace Elevator.Challenge.Domain.Building
                 var elevator = _elevatorDispatcher.AssignElevator(_elevators, request);
                 if (elevator != null)
                 {
-                    Console.WriteLine($"\n Floor selection registered, Elevator Id {elevator.Id} moving from floor {elevator.CurrentFloor}");
+                    var status = elevator.Status == ElevatorStatus.Moving ? " Moving from" : "Stationery at" ;
+                    Console.WriteLine($"\nFloor selection registered, Elevator Id {elevator.Id} {status} floor {elevator.CurrentFloor}");
                     Console.WriteLine($"");
                     elevator.AddLoad(request.PassengerNumber);
                     elevator.MoveToFloorNumber(request.SourceFloor,false);
