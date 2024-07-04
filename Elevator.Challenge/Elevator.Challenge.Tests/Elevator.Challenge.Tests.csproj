@@ -27,11 +27,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\" />
-    <Folder Include="Presentation\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Elevator.Challenge.Domain\Elevator.Challenge.Domain.csproj" />
     <ProjectReference Include="..\Elevator.Challenge.Infrastructure\Elevator.Challenge.Infrastructure.csproj" />
   </ItemGroup>
